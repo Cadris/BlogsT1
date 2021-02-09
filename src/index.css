@@ -51,3 +51,16 @@
 .aName{
   font-weight: 900px;
 }
+.blog-preview a{
+  text-decoration: none;
+}
+
+/* Blog Details page */
+.blog-details h2{
+  font-size: 20px;
+  color: #f1356d;
+  margin-bottom: 10px;
+}
+.blog-details div{
+  margin: 20px 0;
+}

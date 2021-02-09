@@ -8,9 +8,10 @@ const useFetch = (url) => {
 
 
     useEffect(() => {
-        setTimeout(()=>{
+        const abortCont = new AbortController();
 
-            fetch(url)
+        setTimeout(()=>{
+            fetch(url, { signal: abortCont.signal })
             .then(res=>{
                 if(!res.ok){
                     throw Error('Could Not Get the Resource Requested');
@@ -24,12 +25,19 @@ const useFetch = (url) => {
                 setError(null);
             })
             .catch(err=>{
-                console.log(err.message);
-                setError(err.message);
-                setIsPending(false);
+                if(err.name === 'AbortError'){
+                    console.log('Fetch Aborted')
+                }else{
+                    console.log(err.message);
+                    setError(err.message);
+                    setIsPending(false);
+                }
             })
 
-        },1000)
+        },1000);
+
+        return () => abortCont.abort();
+
     },[url]);
 
     return {data, isPending, error}
